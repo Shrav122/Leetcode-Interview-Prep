@@ -1,16 +1,32 @@
+#BRUTE-FORCE
+#Time limit exceeding for 7/39 test cases, including n = 31, and other test cases successfully passed (I believe time limit exceeds for large inputs, according to an online source, recursion approach takes longer time for large inputs)
+
 class Solution:
     def tribonacci(self, n: int) -> int:
-        def memo(n, dp):
-            if n<=2:
-                return dp[n]
-            if dp[n]!=-1:
-                return dp[n]
-            sm = memo(n-3,dp)+memo(n-2,dp)+memo(n-1,dp)
-            dp[n]=sm
-            return dp[n]
-        if n<=2:
-            dp=[0,1,1]
-            return dp[n]
-        dp=[-1]*(n+1)
-        dp[0],dp[1],dp[2]=0,1,1
-        return memo(n,dp)
+        if n == 0 or n == 1:
+            return n
+        elif n == 2:
+            return 1
+        else:
+            return self.tribonacci(n-1) + self.tribonacci(n-2) + self.tribonacci(n-3)
+
+#MEMOIZATION - WORKS SUCCESSFULLY
+class Solution:
+    def tribonacci(self, n: int) -> int:
+        memo = {}
+        memo[0] = 0
+        memo[1] = 1
+        memo[2] = 1
+        return self.calc_trib(n, memo)
+
+    def calc_trib(self, n: int, memo: dict) -> int:
+        if n == 0 or n == 1 or n == 2:
+            return memo[n]
+        elif n not in memo:
+            memo[n] = self.calc_trib(n-1, memo) + self.calc_trib(n-2, memo) + self.calc_trib(n-3, memo)
+        return memo[n]  
+
+#DONE
+
+
+#WORKS BUT TAKES MORE AND MORE TIME TO GET BACK
